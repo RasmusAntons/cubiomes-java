@@ -19,6 +19,7 @@ public class Generator {
     }
 
     public Generator(MCVersion mc, EnumSet<Flags> flags) {
+        NativeLibLoader.ensureLoaded();
         state = ByteBuffer.allocateDirect(getStateSize());
         state.order(ByteOrder.nativeOrder());
         setupGenerator(mc, flags.stream().mapToInt(Flags::getValue).reduce(0, (mask, flag) -> mask | flag));
