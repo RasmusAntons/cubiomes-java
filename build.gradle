@@ -2,13 +2,12 @@ import org.gradle.internal.jvm.Jvm
 
 plugins {
     id 'java'
-    id 'application'
+    id 'java-library'
     id 'c'
 }
 
 group = 'de.rasmusantons'
 version = '0.0'
-mainClassName = 'de.rasmusantons.cubiomes.Main'
 
 repositories {
     mavenCentral()
@@ -17,10 +16,6 @@ repositories {
 dependencies {
     testImplementation platform('org.junit:junit-bom:5.10.0')
     testImplementation 'org.junit.jupiter:junit-jupiter'
-}
-
-application {
-    applicationDefaultJvmArgs = ["-Djava.library.path=" + file("${buildDir}/libs/cubij/shared").absolutePath]
 }
 
 model {
@@ -69,7 +64,16 @@ model {
     }
 }
 
-task genCHeaders(type: Exec) {
+tasks.register('buildNativeLib', Copy) {
+    group = "build"
+    dependsOn 'cubijSharedLibrary'
+
+    from layout.buildDirectory.dir('libs/cubij/shared').get()
+    include 'libcubij.so'
+    into layout.projectDirectory.dir('src/main/resources')
+}
+
+tasks.register('genCHeaders', Exec) {
     group = "build"
     commandLine 'javac', '-h', 'src/cubij/c',
             'src/main/java/de/rasmusantons/cubiomes/Generator.java',
@@ -79,4 +83,13 @@ task genCHeaders(type: Exec) {
             'src/main/java/de/rasmusantons/cubiomes/Range.java'
 }
 
-classes.dependsOn 'cubijSharedLibrary'
+clean.doFirst {
+    delete layout.projectDirectory.file('src/main/resources/libcubij.so')
+}
+
+processResources.dependsOn 'buildNativeLib'
+classes.dependsOn 'buildNativeLib'
+
+test {
+    useJUnitPlatform()
+}

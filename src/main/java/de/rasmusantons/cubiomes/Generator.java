@@ -6,13 +6,10 @@ import java.security.InvalidParameterException;
 import java.util.EnumSet;
 
 public class Generator {
-    static {
-        System.loadLibrary("cubij");
-    }
-
     protected ByteBuffer state;
 
     public Generator(MCVersion mc) {
+        NativeLibLoader.ensureLoaded();
         state = ByteBuffer.allocateDirect(getStateSize());
         state.order(ByteOrder.nativeOrder());
         setupGenerator(mc, 0);
