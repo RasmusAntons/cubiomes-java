@@ -57,7 +57,8 @@ model {
                     cCompiler.args '-I', "${jvmHome}/include"
                     cCompiler.args '-I', "${jvmHome}/include/linux"
                     cCompiler.args '-I', "${projectDir}/src/cubiomes/c"
-                    cCompiler.args '-D_FILE_OFFSET_BITS=64'
+                    cCompiler.args '-O3'
+                    cCompiler.args '-fPIC'
                 }
             }
         }

@@ -2,59 +2,66 @@ package de.rasmusantons.cubiomes;
 
 import java.util.EnumSet;
 
+/**
+ * All BiomeIDs that cubiomes knows.
+ * <p>
+ * Note: Cubiomes defines some duplicate names. In C those are equal,
+ * in Java they are not, e.g. {@link BiomeID#mountains} != {@link BiomeID#extremeHills}.
+ * Because of that, duplicate (deprecated) values should probably not be used.
+ */
 public enum BiomeID {
     none(-1),
     ocean(0),
     plains(1),
     desert(2),
-    mountains(3), extremeHills(mountains.getValue()),
+    mountains(3), @Deprecated extremeHills(mountains.getValue()),
     forest(4),
     taiga(5),
-    swamp(6), swampland(swamp.getValue()),
+    swamp(6), @Deprecated swampland(swamp.getValue()),
     river(7),
-    nether_wastes(8), hell(nether_wastes.getValue()),
-    the_end(9), sky(the_end.getValue()),
-    frozen_ocean(10), frozenOcean(frozen_ocean.getValue()),
-    frozen_river(11), frozenRiver(frozen_river.getValue()),
-    snowy_tundra(12), icePlains(snowy_tundra.getValue()),
-    snowy_mountains(13), iceMountains(snowy_mountains.getValue()),
-    mushroom_fields(14), mushroomIsland(15),
-    mushroom_field_shore(15), mushroomIslandShore(mushroom_field_shore.getValue()),
+    nether_wastes(8), @Deprecated hell(nether_wastes.getValue()),
+    the_end(9), @Deprecated sky(the_end.getValue()),
+    frozen_ocean(10), @Deprecated frozenOcean(frozen_ocean.getValue()),
+    frozen_river(11), @Deprecated frozenRiver(frozen_river.getValue()),
+    snowy_tundra(12), @Deprecated icePlains(snowy_tundra.getValue()),
+    snowy_mountains(13), @Deprecated iceMountains(snowy_mountains.getValue()),
+    mushroom_fields(14), @Deprecated mushroomIsland(15),
+    mushroom_field_shore(15), @Deprecated mushroomIslandShore(mushroom_field_shore.getValue()),
     beach(16),
-    desert_hills(17), desertHills(desert_hills.getValue()),
-    wooded_hills(18), forestHills(wooded_hills.getValue()),
-    taiga_hills(19), taigaHills(taiga_hills.getValue()),
-    mountain_edge(20), extremeHillsEdge(mountain_edge.getValue()),
+    desert_hills(17), @Deprecated desertHills(desert_hills.getValue()),
+    wooded_hills(18), @Deprecated forestHills(wooded_hills.getValue()),
+    taiga_hills(19), @Deprecated taigaHills(taiga_hills.getValue()),
+    mountain_edge(20), @Deprecated extremeHillsEdge(mountain_edge.getValue()),
     jungle(21),
-    jungle_hills(22), jungleHills(jungle_hills.getValue()),
-    jungle_edge(23), jungleEdge(jungle_edge.getValue()),
-    deep_ocean(24), deepOcean(deep_ocean.getValue()),
-    stone_shore(25), stoneBeach(stone_shore.getValue()),
-    snowy_beach(26), coldBeach(snowy_beach.getValue()),
-    birch_forest(27), birchForest(birch_forest.getValue()),
-    birch_forest_hills(28), birchForestHills(birch_forest_hills.getValue()),
-    dark_forest(29), roofedForest(dark_forest.getValue()),
-    snowy_taiga(30), coldTaiga(snowy_taiga.getValue()),
-    snowy_taiga_hills(31), coldTaigaHills(snowy_taiga_hills.getValue()),
-    giant_tree_taiga(32), megaTaiga(giant_tree_taiga.getValue()),
-    giant_tree_taiga_hills(33), megaTaigaHills(giant_tree_taiga_hills.getValue()),
-    wooded_mountains(34), extremeHillsPlus(wooded_mountains.getValue()),
+    jungle_hills(22), @Deprecated jungleHills(jungle_hills.getValue()),
+    jungle_edge(23), @Deprecated jungleEdge(jungle_edge.getValue()),
+    deep_ocean(24), @Deprecated deepOcean(deep_ocean.getValue()),
+    stone_shore(25), @Deprecated stoneBeach(stone_shore.getValue()),
+    snowy_beach(26), @Deprecated coldBeach(snowy_beach.getValue()),
+    birch_forest(27), @Deprecated birchForest(birch_forest.getValue()),
+    birch_forest_hills(28), @Deprecated birchForestHills(birch_forest_hills.getValue()),
+    dark_forest(29), @Deprecated roofedForest(dark_forest.getValue()),
+    snowy_taiga(30), @Deprecated coldTaiga(snowy_taiga.getValue()),
+    snowy_taiga_hills(31), @Deprecated coldTaigaHills(snowy_taiga_hills.getValue()),
+    giant_tree_taiga(32), @Deprecated megaTaiga(giant_tree_taiga.getValue()),
+    giant_tree_taiga_hills(33), @Deprecated megaTaigaHills(giant_tree_taiga_hills.getValue()),
+    wooded_mountains(34), @Deprecated extremeHillsPlus(wooded_mountains.getValue()),
     savanna(35),
-    savanna_plateau(36), savannaPlateau(savanna_plateau.getValue()),
-    badlands(37), mesa(badlands.getValue()),
-    wooded_badlands_plateau(38), mesaPlateau_F(wooded_badlands_plateau.getValue()),
-    badlands_plateau(39), mesaPlateau(badlands_plateau.getValue()),
+    savanna_plateau(36), @Deprecated savannaPlateau(savanna_plateau.getValue()),
+    badlands(37), @Deprecated mesa(badlands.getValue()),
+    wooded_badlands_plateau(38), @Deprecated mesaPlateau_F(wooded_badlands_plateau.getValue()),
+    badlands_plateau(39), @Deprecated mesaPlateau(badlands_plateau.getValue()),
     small_end_islands(40),
     end_midlands(41),
     end_highlands(42),
     end_barrens(43),
-    warm_ocean(44), warmOcean(warm_ocean.getValue()),
-    lukewarm_ocean(45), lukewarmOcean(lukewarm_ocean.getValue()),
-    cold_ocean(46), coldOcean(cold_ocean.getValue()),
-    deep_warm_ocean(47), warmDeepOcean(deep_warm_ocean.getValue()),
-    deep_lukewarm_ocean(48), lukewarmDeepOcean(deep_lukewarm_ocean.getValue()),
-    deep_cold_ocean(49), coldDeepOcean(deep_cold_ocean.getValue()),
-    deep_frozen_ocean(50), frozenDeepOcean(deep_frozen_ocean.getValue()),
+    warm_ocean(44), @Deprecated warmOcean(warm_ocean.getValue()),
+    lukewarm_ocean(45), @Deprecated lukewarmOcean(lukewarm_ocean.getValue()),
+    cold_ocean(46), @Deprecated coldOcean(cold_ocean.getValue()),
+    deep_warm_ocean(47), @Deprecated warmDeepOcean(deep_warm_ocean.getValue()),
+    deep_lukewarm_ocean(48), @Deprecated lukewarmDeepOcean(deep_lukewarm_ocean.getValue()),
+    deep_cold_ocean(49), @Deprecated coldDeepOcean(deep_cold_ocean.getValue()),
+    deep_frozen_ocean(50), @Deprecated frozenDeepOcean(deep_frozen_ocean.getValue()),
 
     // Alpha 1.2 - Beta 1.7
     seasonal_forest(51),
@@ -133,10 +140,16 @@ public enum BiomeID {
         this.value = value;
     }
 
+    /**
+     * {@return cubiomes' internal id of this biome}
+     */
     public int getValue() {
         return value;
     }
 
+    /**
+     * {@return the BiomeID for a given internal id}
+     */
     public static BiomeID fromValue(int value) {
         for (BiomeID v : EnumSet.allOf(BiomeID.class)) {
             if (v.getValue() == value) {

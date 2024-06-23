@@ -2,6 +2,13 @@ package de.rasmusantons.cubiomes;
 
 import java.util.EnumSet;
 
+/**
+ * Minecraft versions
+ * <p>
+ * MC_1_X refers to the latest patch of the respective 1.X release.
+ * NOTE: Development effort focuses on just the newest patch for each major
+ * release. Minor releases and major versions &lt;= 1.0 are experimental.
+ */
 public enum MCVersion {
     MC_UNDEF(0),
     MC_B1_7(1),

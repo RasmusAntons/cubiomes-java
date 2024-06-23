@@ -2,6 +2,9 @@ package de.rasmusantons.cubiomes;
 
 import java.io.*;
 
+/**
+ * Extracts the embedded native library from the jar and loads it.
+ */
 public class NativeLibLoader {
     public static boolean isLoaded = false;
 
@@ -26,6 +29,11 @@ public class NativeLibLoader {
         return true;
     }
 
+    /**
+     * This will load the library only if it hasn't been loaded yet. This function can be called multiple times.
+     *
+     * @return true, if the library was successfully extracted, otherwise false
+     */
     public static boolean ensureLoaded() {
         if (!isLoaded)
             isLoaded = load();
