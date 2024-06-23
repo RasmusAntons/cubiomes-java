@@ -1,15 +1,17 @@
 # cubiomes-java
-This is a Java wrapper for [cubiomes](https://github.com/Cubitect/cubiomes/) using JNI.
-The goal is to be able to use this from within minecraft mods.
+A Java wrapper for [cubiomes](https://github.com/Cubitect/cubiomes/) using JNI.
+The goal is to be able to use it from within minecraft mods.
+
 This project builds a native library that is included in the jar and extracted at runtime.
 
 > Work in progress: Currently only `getBiomeAt` and `genBiomes` can be used, and it only runs on linux.
 
-[javadoc](https://3po.ch/cubiomes-java) (potentially outdated)
+[javadoc](https://3po.ch/cubiomes-java)
 
 ## Gradle setup
 I created a temporary maven repository that can be used for testing.
-Add the repository and dependency (with include to nest it into the mod's jar).
+
+Add the repository and dependency (with `include` copy it into the mod's jar).
 ```groovy
 repositories {
     // ...
