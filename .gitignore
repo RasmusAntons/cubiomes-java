@@ -1,4 +1,7 @@
 /.gradle/
 /build/
 /.idea/
+/CMakeLists.txt
+/cmake-build-*
 *.iml
+*.class

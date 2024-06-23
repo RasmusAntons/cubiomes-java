@@ -69,4 +69,14 @@ model {
     }
 }
 
+task genCHeaders(type: Exec) {
+    group = "build"
+    commandLine 'javac', '-h', 'src/cubij/c',
+            'src/main/java/de/rasmusantons/cubiomes/Generator.java',
+            'src/main/java/de/rasmusantons/cubiomes/MCVersion.java',
+            'src/main/java/de/rasmusantons/cubiomes/BiomeID.java',
+            'src/main/java/de/rasmusantons/cubiomes/Dimension.java',
+            'src/main/java/de/rasmusantons/cubiomes/Range.java'
+}
+
 classes.dependsOn 'cubijSharedLibrary'

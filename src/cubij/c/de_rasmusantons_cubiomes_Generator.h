@@ -18,26 +18,34 @@ JNIEXPORT jint JNICALL Java_de_rasmusantons_cubiomes_Generator_getStateSize
 /*
  * Class:     de_rasmusantons_cubiomes_Generator
  * Method:    setupGenerator
- * Signature: (II)V
+ * Signature: (Lde/rasmusantons/cubiomes/MCVersion;I)V
  */
 JNIEXPORT void JNICALL Java_de_rasmusantons_cubiomes_Generator_setupGenerator
-  (JNIEnv *, jobject, jint, jint);
+  (JNIEnv *, jobject, jobject, jint);
 
 /*
  * Class:     de_rasmusantons_cubiomes_Generator
  * Method:    applySeed
- * Signature: (IJ)V
+ * Signature: (Lde/rasmusantons/cubiomes/Dimension;J)V
  */
 JNIEXPORT void JNICALL Java_de_rasmusantons_cubiomes_Generator_applySeed
-  (JNIEnv *, jobject, jint, jlong);
+  (JNIEnv *, jobject, jobject, jlong);
 
 /*
  * Class:     de_rasmusantons_cubiomes_Generator
  * Method:    getBiomeAt
- * Signature: (IIII)I
+ * Signature: (IIII)Lde/rasmusantons/cubiomes/BiomeID;
  */
-JNIEXPORT jint JNICALL Java_de_rasmusantons_cubiomes_Generator_getBiomeAt
+JNIEXPORT jobject JNICALL Java_de_rasmusantons_cubiomes_Generator_getBiomeAt
   (JNIEnv *, jobject, jint, jint, jint, jint);
+
+/*
+ * Class:     de_rasmusantons_cubiomes_Generator
+ * Method:    genBiomes
+ * Signature: (Lde/rasmusantons/cubiomes/Range;)[Lde/rasmusantons/cubiomes/BiomeID;
+ */
+JNIEXPORT jobjectArray JNICALL Java_de_rasmusantons_cubiomes_Generator_genBiomes
+  (JNIEnv *, jobject, jobject);
 
 #ifdef __cplusplus
 }
