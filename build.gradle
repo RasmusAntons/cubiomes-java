@@ -1,0 +1,72 @@
+import org.gradle.internal.jvm.Jvm
+
+plugins {
+    id 'java'
+    id 'application'
+    id 'c'
+}
+
+group = 'de.rasmusantons'
+version = '0.0'
+mainClassName = 'de.rasmusantons.cubiomes.Main'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testImplementation platform('org.junit:junit-bom:5.10.0')
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+}
+
+application {
+    applicationDefaultJvmArgs = ["-Djava.library.path=" + file("${buildDir}/libs/cubij/shared").absolutePath]
+}
+
+model {
+    platforms {
+        x64 {
+            architecture "x86_64"
+        }
+    }
+
+    components {
+        cubiomes(NativeLibrarySpec) {
+            targetPlatform "x64"
+            sources {
+                c {
+                    source {
+                        srcDirs "src/cubiomes/c"
+                        include "*.c"
+                    }
+                }
+            }
+            binaries.all {
+                cCompiler.args '-O3'
+                cCompiler.args '-fPIC'
+            }
+        }
+
+        cubij(NativeLibrarySpec) {
+            targetPlatform "x64"
+            sources {
+                c {
+                    source {
+                        lib project: ':', library: 'cubiomes', linkage: 'static'
+                    }
+                }
+            }
+            binaries.all {
+                def jvmHome = Jvm.current().javaHome
+                if (targetPlatform.operatingSystem.linux) {
+                    cCompiler.args '-I', "${jvmHome}/include"
+                    cCompiler.args '-I', "${jvmHome}/include/linux"
+                    cCompiler.args '-I', "${projectDir}/src/cubiomes/c"
+                    cCompiler.args '-D_FILE_OFFSET_BITS=64'
+                }
+            }
+        }
+    }
+}
+
+classes.dependsOn 'cubijSharedLibrary'
