@@ -11,7 +11,7 @@ This project builds a native library that is included in the jar and extracted a
 ## Gradle setup
 I created a temporary maven repository that can be used for testing.
 
-Add the repository and dependency (with `include` copy it into the mod's jar).
+Add the repository and dependency (with `include` to copy it into the mod's jar).
 ```groovy
 repositories {
     // ...
