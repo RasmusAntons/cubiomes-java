@@ -77,11 +77,15 @@ tasks.register('buildNativeLib', Copy) {
 tasks.register('genCHeaders', Exec) {
     group = "build"
     commandLine 'javac', '-h', 'src/cubij/c',
-            'src/main/java/de/rasmusantons/cubiomes/Generator.java',
-            'src/main/java/de/rasmusantons/cubiomes/MCVersion.java',
             'src/main/java/de/rasmusantons/cubiomes/BiomeID.java',
+            'src/main/java/de/rasmusantons/cubiomes/Cubiomes.java',
             'src/main/java/de/rasmusantons/cubiomes/Dimension.java',
-            'src/main/java/de/rasmusantons/cubiomes/Range.java'
+            'src/main/java/de/rasmusantons/cubiomes/MCVersion.java',
+            'src/main/java/de/rasmusantons/cubiomes/NativeLibLoader.java',
+            'src/main/java/de/rasmusantons/cubiomes/Range.java',
+            'src/main/java/de/rasmusantons/cubiomes/Pos.java',
+            'src/main/java/de/rasmusantons/cubiomes/Pos3.java',
+            'src/main/java/de/rasmusantons/cubiomes/StructureType.java'
 }
 
 clean.doFirst {
