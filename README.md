@@ -34,5 +34,5 @@ cubiomes.applySeed(Dimension.DIM_OVERWORLD, 1234567890L);  // specify the dimens
 BiomeID biome = cubiomes.getBiomeAt(1, 0, 63, 0);  // get the biome at (0, 63, 0) with a scale of 1
 ```
 
-For more examples see [CubiomesTest.java](https://github.com/RasmusAntons/cubiomes-java/blob/main/src/test/java/de/rasmusantons/cubiomes/CybiomesTest.java)
+For more examples see [CubiomesTest.java](https://github.com/RasmusAntons/cubiomes-java/blob/main/src/test/java/de/rasmusantons/cubiomes/CubiomesTest.java)
 and the original [cubiomes](https://github.com/Cubitect/cubiomes/) documentation.
