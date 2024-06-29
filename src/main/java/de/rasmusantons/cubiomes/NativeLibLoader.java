@@ -9,13 +9,19 @@ public class NativeLibLoader {
     public static boolean isLoaded = false;
 
     private static boolean load() {
-        // todo: load .dll on windows
-        try (InputStream input = NativeLibLoader.class.getResourceAsStream("/libcubij.so")) {
+        String prefix = "lib";
+        String suffix = ".so";
+        String os = System.getProperty("os.name");
+        if (os.toLowerCase().contains("windows")) {
+            prefix = "";
+            suffix = ".dll";
+        }
+        try (InputStream input = NativeLibLoader.class.getResourceAsStream("/" + prefix + "cubij" + suffix)) {
             if (input == null)
                 return false;
             int read;
             byte[] buffer = new byte[8192];
-            final File libfile = File.createTempFile("libcubij", ".so");
+            final File libfile = File.createTempFile(prefix + "cubij", suffix);
             libfile.deleteOnExit();
             final OutputStream output = new BufferedOutputStream(new FileOutputStream(libfile));
             while ((read = input.read(buffer)) > -1)

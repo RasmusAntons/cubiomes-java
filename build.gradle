@@ -38,7 +38,11 @@ model {
             }
             binaries.all {
                 cCompiler.args '-O3'
-                cCompiler.args '-fPIC'
+                if (targetPlatform.operatingSystem.linux) {
+                    cCompiler.args '-fPIC'
+                } else if (targetPlatform.operatingSystem.windows) {
+                    cCompiler.args '-D_WIN32'
+                }
             }
         }
 
@@ -53,13 +57,15 @@ model {
             }
             binaries.all {
                 def jvmHome = Jvm.current().javaHome
+                cCompiler.args '-I', "${jvmHome}/include"
                 if (targetPlatform.operatingSystem.linux) {
-                    cCompiler.args '-I', "${jvmHome}/include"
                     cCompiler.args '-I', "${jvmHome}/include/linux"
-                    cCompiler.args '-I', "${projectDir}/src/cubiomes/c"
-                    cCompiler.args '-O3'
                     cCompiler.args '-fPIC'
+                } else if (targetPlatform.operatingSystem.windows) {
+                    cCompiler.args '-I', "${jvmHome}/include/win32"
                 }
+                cCompiler.args '-I', "${projectDir}/src/cubiomes/c"
+                cCompiler.args '-O3'
             }
         }
     }
@@ -70,7 +76,7 @@ tasks.register('buildNativeLib', Copy) {
     dependsOn 'cubijSharedLibrary'
 
     from layout.buildDirectory.dir('libs/cubij/shared').get()
-    include 'libcubij.so'
+    include 'libcubij.so', 'cubij.dll'
     into layout.projectDirectory.dir('src/main/resources')
 }
 
