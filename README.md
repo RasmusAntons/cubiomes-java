@@ -36,3 +36,8 @@ BiomeID biome = cubiomes.getBiomeAt(1, 0, 63, 0);  // get the biome at (0, 63, 0
 
 For more examples see [CubiomesTest.java](https://github.com/RasmusAntons/cubiomes-java/blob/main/src/test/java/de/rasmusantons/cubiomes/CubiomesTest.java)
 and the original [cubiomes](https://github.com/Cubitect/cubiomes/) documentation.
+
+
+## Windows Build Setup
+To be able to compile on windows, follow https://code.visualstudio.com/docs/cpp/config-mingw#_installing-the-mingww64-toolchain
+to install the MinGW toolchain, then add `C:\msys64\usr\bin` and `C:\msys64\ucrt64\bin` to the system path.
