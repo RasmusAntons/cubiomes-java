@@ -63,6 +63,14 @@ JNIEXPORT jobject JNICALL Java_de_rasmusantons_cubiomes_Cubiomes_getStructurePos
 JNIEXPORT jboolean JNICALL Java_de_rasmusantons_cubiomes_Cubiomes_isViableStructurePos
   (JNIEnv *, jobject, jobject, jint, jint);
 
+/*
+ * Class:     de_rasmusantons_cubiomes_Cubiomes
+ * Method:    checkForBiomes
+ * Signature: (Lde/rasmusantons/cubiomes/Range;Lde/rasmusantons/cubiomes/Dimension;JLde/rasmusantons/cubiomes/BiomeFilter;)Z
+ */
+JNIEXPORT jboolean JNICALL Java_de_rasmusantons_cubiomes_Cubiomes_checkForBiomes
+  (JNIEnv *, jobject, jobject, jobject, jlong, jobject);
+
 #ifdef __cplusplus
 }
 #endif

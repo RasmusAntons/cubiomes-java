@@ -97,6 +97,17 @@ public class Cubiomes {
      */
     public native boolean isViableStructurePos(StructureType structType, int blockX, int blockZ);
 
+    /**
+     * Starts to generate the specified range and checks if the biomes meet the
+     * requirements of the biome filter.
+     * <p>
+     * The generator should be set up for the correct version, however the
+     * dimension and seed will be applied internally. This will modify the
+     * generator into a partially initialized state that is not valid to use
+     * outside this function without re-applying a seed.
+     */
+    public native boolean checkForBiomes(Range r, Dimension dim, long seed, BiomeFilter filter);
+
     public enum GeneratorFlag {
         LARGE_BIOMES(0x1),
         NO_BETA_OCEAN(0x2),

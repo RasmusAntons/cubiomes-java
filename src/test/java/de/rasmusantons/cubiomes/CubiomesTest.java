@@ -69,4 +69,16 @@ class CubiomesTest {
         boolean viable = cubiomes.isViableStructurePos(StructureType.Desert_Pyramid, -336, -2496);
         assertTrue(viable);
     }
+
+    @Test
+    void checkForBiomes() {
+        Cubiomes cubiomes = new Cubiomes(MCVersion.MC_1_21);
+        Range r = new Range(1, -1580, 2395, 2, 2, 63, 1);
+        BiomeFilter cherryGroveFilter = BiomeFilter.Builder.with().allOf(BiomeID.cherry_grove).build();
+        boolean hasCherryGrove = cubiomes.checkForBiomes(r, Dimension.DIM_OVERWORLD, TEST_SEED, cherryGroveFilter);
+        assertTrue(hasCherryGrove);
+        BiomeFilter badlandsFilter = BiomeFilter.Builder.with().allOf(BiomeID.badlands).build();
+        boolean hasBadlands = cubiomes.checkForBiomes(r, Dimension.DIM_OVERWORLD, TEST_SEED, badlandsFilter);
+        assertFalse(hasBadlands);
+    }
 }

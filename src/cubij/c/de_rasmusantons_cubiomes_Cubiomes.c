@@ -79,3 +79,10 @@ jboolean Java_de_rasmusantons_cubiomes_Cubiomes_isViableStructurePos(JNIEnv *env
     Generator *g = wrapGenerator(env, thisObj);
     return isViableStructurePos(getEnumValue(env, structType), g, blockX, blockZ, 0);
 }
+
+JNIEXPORT jboolean JNICALL Java_de_rasmusantons_cubiomes_Cubiomes_checkForBiomes(JNIEnv *env, jobject thisObj, jobject r, jobject dim, jlong seed, jobject filter) {
+    Generator *g = wrapGenerator(env, thisObj);
+    Range range = wrapRange(env, r);
+    BiomeFilter biomeFilter = wrapBiomeFilter(env, filter, g->mc);
+    return checkForBiomes(g, NULL, range, getEnumValue(env, dim), seed, &biomeFilter, NULL);
+}
