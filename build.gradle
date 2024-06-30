@@ -7,7 +7,7 @@ plugins {
 }
 
 group = 'de.rasmusantons'
-version = '0.0'
+version = '0.0.3'
 
 repositories {
     mavenCentral()

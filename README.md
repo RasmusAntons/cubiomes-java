@@ -4,7 +4,7 @@ The goal is to be able to use it from within minecraft mods.
 
 This project builds a native library that is included in the jar and extracted at runtime.
 
-> Work in progress: Currently only `getBiomeAt`, `genBiomes`, `getStructurePos` and `isViableStructurePos` can be used, and it only runs on linux.
+> Work in progress: Currently only `getBiomeAt`, `genBiomes`, `getStructurePos`, `isViableStructurePos` and `checkForBiomes` can be used, and it only runs on linux.
 
 [javadoc](https://3po.ch/cubiomes-java)
 
@@ -22,7 +22,7 @@ repositories {
 }
 dependencies {
     // ...
-    include implementation("de.rasmusantons.cubiomes:cubiomes-java:0.0")
+    include implementation("de.rasmusantons.cubiomes:cubiomes-java:0.0.3")
 }
 ```
 
