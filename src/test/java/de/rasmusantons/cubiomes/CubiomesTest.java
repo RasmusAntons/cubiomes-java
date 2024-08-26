@@ -80,5 +80,8 @@ class CubiomesTest {
         BiomeFilter badlandsFilter = BiomeFilter.Builder.with().allOf(BiomeID.badlands).build();
         boolean hasBadlands = cubiomes.checkForBiomes(r, Dimension.DIM_OVERWORLD, TEST_SEED, badlandsFilter);
         assertFalse(hasBadlands);
+        BiomeFilter multiFilter = BiomeFilter.Builder.with().allOf(BiomeID.cherry_grove, BiomeID.badlands).build();
+        boolean hasMultiple = cubiomes.checkForBiomes(r, Dimension.DIM_OVERWORLD, TEST_SEED, multiFilter);
+        assertFalse(hasMultiple);
     }
 }

@@ -46,7 +46,7 @@ static inline int wrapEnumArray(JNIEnv *env, jobjectArray enumArray, int **targe
     *target = malloc(length);
     for (int i = 0; i < length; ++i) {
         jobject elem = (*env)->GetObjectArrayElement(env, enumArray, i);
-        *target[i] = getEnumValue(env, elem);
+        (*target)[i] = getEnumValue(env, elem);
     }
     return length;
 }
