@@ -5,63 +5,82 @@ import java.util.EnumSet;
 /**
  * All BiomeIDs that cubiomes knows.
  * <p>
- * Note: Cubiomes defines some duplicate names. In C those are equal,
- * in Java they are not, e.g. {@link BiomeID#mountains} != {@link BiomeID#extremeHills}.
- * Because of that, duplicate (deprecated) values should probably not be used.
+ * Note: Cubiomes defines some duplicate values for biomes with different names in some versions of Minecraft.
+ * Here, those names are accessible with {@link BiomeID#getAltNames()}.
+ * <p>
+ * If running inside a Minecraft mod, the {@link BiomeID} can be translated to a Biome like this (using Mojang Mappings):
+ * {@snippet :
+ * public static Holder<Biome> biomeIdToBiome(RegistryAccess access, BiomeID biomeID) throws NoSuchElementException {
+ *     Registry<Biome> registry = access.registry(Registries.BIOME).orElseThrow();
+ *     Optional<Holder.Reference<Biome>> biome = registry.getHolder(ResourceLocation.withDefaultNamespace(biomeID.name()));
+ *     if (biome.isPresent()) {
+ *         return biome.get();
+ *     } else {
+ *         for (String altName : biomeID.getAltNames()) {
+ *             if (!ResourceLocation.isValidPath(altName))
+ *                 continue;
+ *             biome = registry.getHolder(ResourceLocation.withDefaultNamespace(altName));
+ *             if (biome.isPresent())
+ *                 return biome.get();
+ *         }
+ *     }
+ *     throw new NoSuchElementException("No value present");
+ * }
+ * }
  */
 public enum BiomeID {
     none(-1),
     ocean(0),
     plains(1),
     desert(2),
-    mountains(3), @Deprecated extremeHills(mountains.getValue()),
+    mountains(3, "extremeHills", "windswept_hills"),
     forest(4),
     taiga(5),
-    swamp(6), @Deprecated swampland(swamp.getValue()),
+    swamp(6, "swampland"),
     river(7),
-    nether_wastes(8), @Deprecated hell(nether_wastes.getValue()),
-    the_end(9), @Deprecated sky(the_end.getValue()),
-    frozen_ocean(10), @Deprecated frozenOcean(frozen_ocean.getValue()),
-    frozen_river(11), @Deprecated frozenRiver(frozen_river.getValue()),
-    snowy_tundra(12), @Deprecated icePlains(snowy_tundra.getValue()),
-    snowy_mountains(13), @Deprecated iceMountains(snowy_mountains.getValue()),
-    mushroom_fields(14), @Deprecated mushroomIsland(15),
-    mushroom_field_shore(15), @Deprecated mushroomIslandShore(mushroom_field_shore.getValue()),
+    nether_wastes(8, "hell"),
+    the_end(9, "sky"),
+    frozen_ocean(10, "frozenOcean"),
+    frozen_river(11, "frozenRiver"),
+    snowy_tundra(12, "icePlains", "snowy_plains"),
+    snowy_mountains(13, "iceMountains"),
+    mushroom_fields(14, "mushroomIsland"),
+    mushroom_field_shore(15, "mushroomIslandShore"),
     beach(16),
-    desert_hills(17), @Deprecated desertHills(desert_hills.getValue()),
-    wooded_hills(18), @Deprecated forestHills(wooded_hills.getValue()),
-    taiga_hills(19), @Deprecated taigaHills(taiga_hills.getValue()),
-    mountain_edge(20), @Deprecated extremeHillsEdge(mountain_edge.getValue()),
+    desert_hills(17, "desertHills"),
+    wooded_hills(18, "forestHills"),
+    taiga_hills(19, "taigaHills"),
+    mountain_edge(20, "extremeHillsEdge"),
     jungle(21),
-    jungle_hills(22), @Deprecated jungleHills(jungle_hills.getValue()),
-    jungle_edge(23), @Deprecated jungleEdge(jungle_edge.getValue()),
-    deep_ocean(24), @Deprecated deepOcean(deep_ocean.getValue()),
-    stone_shore(25), @Deprecated stoneBeach(stone_shore.getValue()),
-    snowy_beach(26), @Deprecated coldBeach(snowy_beach.getValue()),
-    birch_forest(27), @Deprecated birchForest(birch_forest.getValue()),
-    birch_forest_hills(28), @Deprecated birchForestHills(birch_forest_hills.getValue()),
-    dark_forest(29), @Deprecated roofedForest(dark_forest.getValue()),
-    snowy_taiga(30), @Deprecated coldTaiga(snowy_taiga.getValue()),
-    snowy_taiga_hills(31), @Deprecated coldTaigaHills(snowy_taiga_hills.getValue()),
-    giant_tree_taiga(32), @Deprecated megaTaiga(giant_tree_taiga.getValue()),
-    giant_tree_taiga_hills(33), @Deprecated megaTaigaHills(giant_tree_taiga_hills.getValue()),
-    wooded_mountains(34), @Deprecated extremeHillsPlus(wooded_mountains.getValue()),
+    jungle_hills(22, "jungleHills"),
+    jungle_edge(23, "jungleEdge", "sparse_jungle"),
+    deep_ocean(24, "deepOcean"),
+    stone_shore(25, "stoneBeach", "stony_shore"),
+    snowy_beach(26, "coldBeach"),
+    birch_forest(27, "birchForest"),
+    birch_forest_hills(28, "birchForestHills"),
+    dark_forest(29, "roofedForest"),
+    snowy_taiga(30, "coldTaiga"),
+    snowy_taiga_hills(31, "coldTaigaHills"),
+    giant_tree_taiga(32, "megaTaiga", "old_growth_pine_taiga"),
+    giant_tree_taiga_hills(33, "megaTaigaHills"),
+    wooded_mountains(34, "extremeHillsPlus", "windswept_forest"),
     savanna(35),
-    savanna_plateau(36), @Deprecated savannaPlateau(savanna_plateau.getValue()),
-    badlands(37), @Deprecated mesa(badlands.getValue()),
-    wooded_badlands_plateau(38), @Deprecated mesaPlateau_F(wooded_badlands_plateau.getValue()),
-    badlands_plateau(39), @Deprecated mesaPlateau(badlands_plateau.getValue()),
+    savanna_plateau(36, "savannaPlateau"),
+    badlands(37, "mesa"),
+    wooded_badlands_plateau(38, "mesaPlateau_F", "wooded_badlands"),
+    badlands_plateau(39, "mesaPlateau"),
     small_end_islands(40),
     end_midlands(41),
     end_highlands(42),
     end_barrens(43),
-    warm_ocean(44), @Deprecated warmOcean(warm_ocean.getValue()),
-    lukewarm_ocean(45), @Deprecated lukewarmOcean(lukewarm_ocean.getValue()),
-    cold_ocean(46), @Deprecated coldOcean(cold_ocean.getValue()),
-    deep_warm_ocean(47), @Deprecated warmDeepOcean(deep_warm_ocean.getValue()),
-    deep_lukewarm_ocean(48), @Deprecated lukewarmDeepOcean(deep_lukewarm_ocean.getValue()),
-    deep_cold_ocean(49), @Deprecated coldDeepOcean(deep_cold_ocean.getValue()),
-    deep_frozen_ocean(50), @Deprecated frozenDeepOcean(deep_frozen_ocean.getValue()),
+    warm_ocean(44, "warmOcean"),
+    lukewarm_ocean(45, "lukewarmOcean"),
+    cold_ocean(46, "coldOcean"),
+    deep_warm_ocean(47, "warmDeepOcean"),
+    deep_lukewarm_ocean(48, "lukewarmDeepOcean"),
+    deep_cold_ocean(49, "coldDeepOcean"),
+    deep_frozen_ocean(50, "frozenDeepOcean"),
 
     // Alpha 1.2 - Beta 1.7
     seasonal_forest(51),
@@ -73,21 +92,21 @@ public enum BiomeID {
     // mutated variants
     sunflower_plains(plains.getValue() + 128),
     desert_lakes(desert.getValue() + 128),
-    gravelly_mountains(mountains.getValue() + 128),
+    gravelly_mountains(mountains.getValue() + 128, "windswept_gravelly_hills"),
     flower_forest(forest.getValue() + 128),
     taiga_mountains(taiga.getValue() + 128),
     swamp_hills(swamp.getValue() + 128),
     ice_spikes(snowy_tundra.getValue() + 128),
     modified_jungle(jungle.getValue() + 128),
     modified_jungle_edge(jungle_edge.getValue() + 128),
-    tall_birch_forest(birch_forest.getValue() + 128),
+    tall_birch_forest(birch_forest.getValue() + 128, "old_growth_birch_forest"),
     tall_birch_hills(birch_forest_hills.getValue() + 128),
     dark_forest_hills(dark_forest.getValue() + 128),
     snowy_taiga_mountains(snowy_taiga.getValue() + 128),
-    giant_spruce_taiga(giant_tree_taiga.getValue() + 128),
+    giant_spruce_taiga(giant_tree_taiga.getValue() + 128, "old_growth_spruce_taiga"),
     giant_spruce_taiga_hills(giant_tree_taiga_hills.getValue() + 128),
     modified_gravelly_mountains(wooded_mountains.getValue() + 128),
-    shattered_savanna(savanna.getValue() + 128),
+    shattered_savanna(savanna.getValue() + 128, "windswept_savanna"),
     shattered_savanna_plateau(savanna_plateau.getValue() + 128),
     eroded_badlands(badlands.getValue() + 128),
     modified_wooded_badlands_plateau(wooded_badlands_plateau.getValue() + 128),
@@ -114,17 +133,6 @@ public enum BiomeID {
     jagged_peaks(180),
     frozen_peaks(181),
     stony_peaks(182),
-    @Deprecated old_growth_birch_forest(tall_birch_forest.getValue()),
-    @Deprecated old_growth_pine_taiga(giant_tree_taiga.getValue()),
-    @Deprecated old_growth_spruce_taiga(giant_spruce_taiga.getValue()),
-    @Deprecated snowy_plains(snowy_tundra.getValue()),
-    @Deprecated sparse_jungle(jungle_edge.getValue()),
-    @Deprecated stony_shore(stone_shore.getValue()),
-    @Deprecated windswept_hills(mountains.getValue()),
-    @Deprecated windswept_forest(wooded_mountains.getValue()),
-    @Deprecated windswept_gravelly_hills(gravelly_mountains.getValue()),
-    @Deprecated windswept_savanna(shattered_savanna.getValue()),
-    @Deprecated wooded_badlands(wooded_badlands_plateau.getValue()),
 
     // 1.19
     deep_dark(183),
@@ -135,9 +143,11 @@ public enum BiomeID {
 
 
     private final int value;
+    private final String[] altNames;
 
-    BiomeID(int value) {
+    BiomeID(int value, String... altNames) {
         this.value = value;
+        this.altNames = altNames;
     }
 
     /**
@@ -145,6 +155,13 @@ public enum BiomeID {
      */
     public int getValue() {
         return value;
+    }
+
+    /**
+     * {@return alternative names for this biome}
+     */
+    public String[] getAltNames() {
+        return altNames;
     }
 
     /**
