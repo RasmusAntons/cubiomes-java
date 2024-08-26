@@ -10,7 +10,7 @@ import java.util.EnumSet;
  * <p>
  * If running inside a Minecraft mod, the {@link BiomeID} can be translated to a Biome like this (using Mojang Mappings):
  * {@snippet :
- * public static Holder<Biome> biomeIdToBiome(RegistryAccess access, BiomeID biomeID) throws NoSuchElementException {
+ * public static Holder<Biome> biomeIDToBiome(RegistryAccess access, BiomeID biomeID) throws NoSuchElementException {
  *     Registry<Biome> registry = access.registry(Registries.BIOME).orElseThrow();
  *     Optional<Holder.Reference<Biome>> biome = registry.getHolder(ResourceLocation.withDefaultNamespace(biomeID.name()));
  *     if (biome.isPresent()) {
@@ -22,6 +22,21 @@ import java.util.EnumSet;
  *             biome = registry.getHolder(ResourceLocation.withDefaultNamespace(altName));
  *             if (biome.isPresent())
  *                 return biome.get();
+ *         }
+ *     }
+ *     throw new NoSuchElementException("No value present");
+ * }
+ * }
+ * A Biome can be translated to a BiomeID like this:
+ * {@snippet :
+ * public static BiomeID biomeToBiomeID(Holder<Biome> biome) {
+ *     String path = biome.unwrapKey().orElseThrow().location().getPath();
+ *     try {
+ *         return BiomeID.valueOf(path);
+ *     } catch (IllegalArgumentException e) {
+ *         for (BiomeID biomeID : BiomeID.values()) {
+ *             if (Arrays.asList(biomeID.getAltNames()).contains(path))
+ *                 return biomeID;
  *         }
  *     }
  *     throw new NoSuchElementException("No value present");
