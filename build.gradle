@@ -1,4 +1,5 @@
 import org.gradle.internal.jvm.Jvm
+import org.apache.tools.ant.taskdefs.condition.Os
 
 plugins {
     id 'java'
@@ -8,6 +9,10 @@ plugins {
 
 group = 'de.rasmusantons'
 version = '0.0.4'
+
+def isWindows = Os.is(Os.FAMILY_WINDOWS)
+def crossGcc = 'x86_64-w64-mingw32-gcc'
+def canCrossCompile = file("/usr/bin/${crossGcc}").exists()
 
 repositories {
     mavenCentral()
@@ -20,14 +25,35 @@ dependencies {
 
 model {
     platforms {
-        x64 {
+        linux_x64 {
+            operatingSystem 'linux'
             architecture "x86_64"
+        }
+        windows_x64 {
+            operatingSystem 'windows'
+            architecture "x86_64"
+        }
+    }
+
+    toolChains {
+        if (!isWindows && canCrossCompile) {
+            mingw(Gcc) {
+                target("windows_x64") {
+                    cCompiler.executable crossGcc
+                    linker.executable crossGcc
+                }
+            }
         }
     }
 
     components {
         cubiomes(NativeLibrarySpec) {
-            targetPlatform "x64"
+            if (!isWindows) {
+                targetPlatform "linux_x64"
+            }
+            if (isWindows || canCrossCompile) {
+                targetPlatform "windows_x64"
+            }
             sources {
                 c {
                     source {
@@ -47,7 +73,12 @@ model {
         }
 
         cubij(NativeLibrarySpec) {
-            targetPlatform "x64"
+            if (!isWindows) {
+                targetPlatform "linux_x64"
+            }
+            if (isWindows || canCrossCompile) {
+            targetPlatform "windows_x64"
+                }
             sources {
                 c {
                     source {
@@ -73,10 +104,15 @@ model {
 
 tasks.register('buildNativeLib', Copy) {
     group = "build"
-    dependsOn 'cubijSharedLibrary'
+
+    dependsOn(buildDependentsCubij)
 
     from layout.buildDirectory.dir('libs/cubij/shared').get()
     include 'libcubij.so', 'cubij.dll'
+    from layout.buildDirectory.dir('libs/cubij/shared/linux_x64').get()
+    include 'libcubij.so'
+    from layout.buildDirectory.dir('libs/cubij/shared/windows_x64').get()
+    include 'cubij.dll'
     into layout.projectDirectory.dir('src/main/resources')
 }
 

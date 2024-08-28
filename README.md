@@ -41,3 +41,10 @@ and the original [cubiomes](https://github.com/Cubitect/cubiomes/) documentation
 ## Windows Build Setup
 To be able to compile on windows, follow https://code.visualstudio.com/docs/cpp/config-mingw#_installing-the-mingww64-toolchain
 to install the MinGW toolchain, then add `C:\msys64\usr\bin` and `C:\msys64\ucrt64\bin` to the system path.
+
+## Cross Compiling for Windows
+On Arch linux, install the group `mingw-w64-toolchain` and then download a missing header file (if using jdk21-openjdk):
+```
+sudo curl --create-dirs --output /usr/lib/jvm/java-21-openjdk/include/win32/jni_md.h https://raw.githubusercontent.com/openjdk/jdk/master/src/java.base/windows/native/include/jni_md.h
+sudo chmod 755 /usr/lib/jvm/java-21-openjdk/include/win32
+```
