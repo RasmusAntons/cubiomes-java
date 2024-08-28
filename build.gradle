@@ -10,7 +10,7 @@ plugins {
 group = 'de.rasmusantons'
 version = '0.0.4'
 
-def isWindows = Os.is(Os.FAMILY_WINDOWS)
+def isWindows = Os.isFamily(Os.FAMILY_WINDOWS)
 def crossGcc = 'x86_64-w64-mingw32-gcc'
 def canCrossCompile = file("/usr/bin/${crossGcc}").exists()
 
