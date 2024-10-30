@@ -154,7 +154,10 @@ public enum BiomeID {
     mangrove_swamp(184),
 
     // 1.20
-    cherry_grove(185);
+    cherry_grove(185),
+
+    // 1.31.3
+    pale_garden(186);
 
 
     private final int value;

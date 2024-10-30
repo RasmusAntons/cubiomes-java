@@ -34,10 +34,11 @@ public enum MCVersion {
     MC_1_17_1(21), MC_1_17(MC_1_17_1.getValue()),
     MC_1_18_2(22), MC_1_18(MC_1_18_2.getValue()),
     MC_1_19_2(23),
-    MC_1_19(24),  // 1.19.3 - 1.19.4
-    MC_1_20(25),
-    MC_1_21(26),
-    MC_NEWEST(MC_1_21.getValue());
+    MC_1_19_4(24), MC_1_19(MC_1_19_4.getValue()),
+    MC_1_20_6(25), MC_1_20(MC_1_20_6.getValue()),
+    MC_1_21_2(26), MC_1_21(MC_1_21_2.getValue()),
+    MC_1_21_3(27),
+    MC_NEWEST(MC_1_21_3.getValue());
 
     private final int value;
 
