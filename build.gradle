@@ -11,8 +11,10 @@ group = 'de.rasmusantons'
 version = '0.0.5'
 
 def isWindows = Os.isFamily(Os.FAMILY_WINDOWS)
-def crossGcc = 'x86_64-w64-mingw32-gcc'
-def canCrossCompile = file("/usr/bin/${crossGcc}").exists()
+def crossGccWindows = 'x86_64-w64-mingw32-gcc'
+def canCrossCompileWindows = file("/usr/bin/${crossGccWindows}").exists()
+def crossGccAarch64 = 'aarch64-linux-gnu-gcc'
+def canCrossCompileAarch64 = file("/usr/bin/${crossGccAarch64}").exists()
 
 compileJava {
     sourceCompatibility = 17
@@ -29,11 +31,20 @@ dependencies {
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 }
 
+static File appendBinarySuffix(File binaryFile, String suffix) {
+    int extensionSeparatorIndex = binaryFile.path.lastIndexOf('.')
+    return new File(binaryFile.path.substring(0, extensionSeparatorIndex) + suffix + binaryFile.path.substring(extensionSeparatorIndex))
+}
+
 model {
     platforms {
         linux_x64 {
             operatingSystem 'linux'
             architecture "x86_64"
+        }
+        linux_aarch64 {
+            operatingSystem 'linux'
+            architecture "aarch64"
         }
         windows_x64 {
             operatingSystem 'windows'
@@ -42,11 +53,17 @@ model {
     }
 
     toolChains {
-        if (!isWindows && canCrossCompile) {
+        if (!isWindows && canCrossCompileWindows) {
+            gcc_aarch64(Gcc) {
+                target("linux_aarch64") {
+                    cCompiler.executable crossGccAarch64
+                    linker.executable crossGccAarch64
+                }
+            }
             mingw(Gcc) {
                 target("windows_x64") {
-                    cCompiler.executable crossGcc
-                    linker.executable crossGcc
+                    cCompiler.executable crossGccWindows
+                    linker.executable crossGccWindows
                 }
             }
         }
@@ -57,7 +74,10 @@ model {
             if (!isWindows) {
                 targetPlatform "linux_x64"
             }
-            if (isWindows || canCrossCompile) {
+            if (!isWindows && canCrossCompileAarch64) {
+                targetPlatform "linux_aarch64"
+            }
+            if (isWindows || canCrossCompileWindows) {
                 targetPlatform "windows_x64"
             }
             sources {
@@ -82,9 +102,12 @@ model {
             if (!isWindows) {
                 targetPlatform "linux_x64"
             }
-            if (isWindows || canCrossCompile) {
-            targetPlatform "windows_x64"
-                }
+            if (!isWindows && canCrossCompileAarch64) {
+                targetPlatform "linux_aarch64"
+            }
+            if (isWindows || canCrossCompileWindows) {
+                targetPlatform "windows_x64"
+            }
             sources {
                 c {
                     source {
@@ -93,6 +116,11 @@ model {
                 }
             }
             binaries.all {
+                if (it instanceof SharedLibraryBinarySpec) {
+                    sharedLibraryFile = appendBinarySuffix(sharedLibraryFile, "_${targetPlatform.architecture.getName()}")
+                } else if (it instanceof StaticLibraryBinarySpec) {
+                    staticLibraryFile = appendBinarySuffix(staticLibraryFile, "_${targetPlatform.architecture.getName()}")
+                }
                 def jvmHome = Jvm.current().javaHome
                 cCompiler.args '-I', "${jvmHome}/include"
                 if (targetPlatform.operatingSystem.linux) {
@@ -114,11 +142,13 @@ tasks.register('buildNativeLib', Copy) {
     dependsOn(buildDependentsCubij)
 
     from layout.buildDirectory.dir('libs/cubij/shared').get()
-    include 'libcubij.so', 'cubij.dll'
+    include 'libcubij_x86-64.so', 'libcubij_aarch64.so', 'cubij_x86-64.dll'
     from layout.buildDirectory.dir('libs/cubij/shared/linux_x64').get()
-    include 'libcubij.so'
+    include 'libcubij_x86-64.so'
+    from layout.buildDirectory.dir('libs/cubij/shared/linux_aarch64').get()
+    include 'libcubij_aarch64.so'
     from layout.buildDirectory.dir('libs/cubij/shared/windows_x64').get()
-    include 'cubij.dll'
+    include 'cubij_x86-64.dll'
     into layout.projectDirectory.dir('src/main/resources')
 }
 
@@ -138,7 +168,9 @@ tasks.register('genCHeaders', Exec) {
 }
 
 clean.doFirst {
-    delete layout.projectDirectory.file('src/main/resources/libcubij.so')
+    delete layout.projectDirectory.file('src/main/resources/libcubij_x86-64.so')
+    delete layout.projectDirectory.file('src/main/resources/libcubij_aarch64.so')
+    delete layout.projectDirectory.file('src/main/resources/cubij_x86-64.dll')
 }
 
 processResources.dependsOn 'buildNativeLib'
