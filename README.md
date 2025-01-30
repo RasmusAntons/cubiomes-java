@@ -21,7 +21,7 @@ repositories {
 }
 dependencies {
     // ...
-    include implementation("de.rasmusantons.cubiomes:cubiomes-java:0.0.5")
+    include implementation("de.rasmusantons.cubiomes:cubiomes-java:0.0.6")
 }
 ```
 
