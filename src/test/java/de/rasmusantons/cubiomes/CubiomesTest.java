@@ -11,9 +11,10 @@ class CubiomesTest {
     void getBiomeAt() {
         Cubiomes cubiomes = new Cubiomes(MCVersion.MC_1_21);
         cubiomes.applySeed(Dimension.DIM_OVERWORLD, TEST_SEED);
-        assertEquals(cubiomes.getBiomeAt(1, 0, 0, 0), BiomeID.lush_caves);
-        assertEquals(cubiomes.getBiomeAt(1, 0, 63, 0), BiomeID.jungle);
-        assertEquals(cubiomes.getBiomeAt(1, -150, 63, 150), BiomeID.tall_birch_forest);
+        assertEquals(BiomeID.lush_caves, cubiomes.getBiomeAt(1, 0, 0, 0));
+        assertEquals(BiomeID.jungle, cubiomes.getBiomeAt(1, 0, 63, 0));
+        assertEquals(BiomeID.tall_birch_forest, cubiomes.getBiomeAt(1, -150, 63, 150));
+        assertEquals(BiomeID.pale_garden, cubiomes.getBiomeAt(1, -746, 96, 671));
     }
 
     @Test
@@ -48,7 +49,7 @@ class CubiomesTest {
         BiomeID[][] biomeIDs = cubiomes.genBiomes2D(new Range(1, -1, -1, 2, 2, 15));
         for (BiomeID[] sliceZ : biomeIDs) {
             for (BiomeID biomeID : sliceZ) {
-                assertEquals(biomeID, BiomeID.river);
+                assertEquals(BiomeID.river, biomeID);
             }
         }
     }
@@ -58,8 +59,8 @@ class CubiomesTest {
         Cubiomes cubiomes = new Cubiomes(MCVersion.MC_1_21);
         Pos pos = cubiomes.getStructurePos(StructureType.Trial_Chambers, TEST_SEED, 0, 0);
         assertNotNull(pos);
-        assertEquals(pos.x(), 256);
-        assertEquals(pos.z(), 224);
+        assertEquals(256, pos.x());
+        assertEquals(224, pos.z());
     }
 
     @Test

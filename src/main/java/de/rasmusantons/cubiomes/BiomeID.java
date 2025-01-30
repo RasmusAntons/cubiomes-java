@@ -156,7 +156,7 @@ public enum BiomeID {
     // 1.20
     cherry_grove(185),
 
-    // 1.31.3
+    // 1.31 Winter Drop
     pale_garden(186);
 
 
