@@ -8,7 +8,7 @@ plugins {
 }
 
 group = 'de.rasmusantons'
-version = '0.0.5'
+version = '0.0.6'
 
 def isWindows = Os.isFamily(Os.FAMILY_WINDOWS)
 def crossGccWindows = 'x86_64-w64-mingw32-gcc'
