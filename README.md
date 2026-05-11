@@ -1,4 +1,9 @@
 # cubiomes-java
+
+> [!NOTE]
+> I'm archiving this repository because cubiomes is no longer updated and the generated Java bindings in [xpple/cubiomes](https://github.com/xpple/cubiomes/tree/java-bindings) work pretty well.
+> On the downside function calls are a bit uglier, but on the upside all functions are available without additional work.
+
 A Java wrapper for [cubiomes](https://github.com/Cubitect/cubiomes/) using JNI.
 The goal is to be able to use it from within minecraft mods.
 
